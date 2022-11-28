@@ -1,7 +1,11 @@
 import json
 import requests
 import datetime
+import os
+from google.oauth2 import service_account
 from google.cloud import storage
+from time import time
+
 
 # --------------------------------------------------------------
 # ---------------setting up shit---------------------------------
@@ -21,7 +25,10 @@ headers = {
 }
 
 # setting up Google cloud credentials
-
+service_account_file = os.environ.get("SERVICE_ACCOUNT_FILE")
+credentials = service_account.Credentials.from_service_account_file(
+    service_account_file
+)
 
 # --------------------------------------------------------------
 # --------------------------------------------------------------
@@ -29,12 +36,11 @@ headers = {
 # setting up recursive function to extracting data from API
 def extracting_data(url, header, extracted_property):
     property_data = requests.get(url, headers=header).json()
-    print("-----------------------")
-    print(property_data)
     if not property_data["data"]:
         extracted_property["api_version"] = property_data["version"]
-        extracted_property["extraction_date"] = extraction_date
-        print("----------")
+        extracted_property["extraction_pipeline_metadata"][
+            "extraction_date"
+        ] = extraction_date
         print("end of data")
         return
     else:
@@ -70,10 +76,14 @@ def upload_blob_to_gcs(bucket_name, contents, destination_blob_name):
 # main function
 for location_id in location_ids:
     # Set up empty list to store the individual property data
+    t_start = time()
     extracted_property_object = {
         "api_version": "",
         "data": [],
-        "extraction_date": "",
+        "extraction_pipeline_metadata": {
+            "extraction_date": extraction_date,
+            "extraction_speed": "",
+        },
     }
 
     # Do the fetching
@@ -81,11 +91,23 @@ for location_id in location_ids:
 
     # Run the extraction!
     extracting_data(url, headers, extracted_property_object)
+    t_end = time()
+    extraction_speed = t_end - t_start
+    extracted_property_object["extraction_pipeline_metadata"][
+        "extraction_speed"
+    ] = extraction_speed
 
-    # Wrote extracted data to json bytes
-    extracted_property_json = json.dumps(
-        extracted_property_object, ensure_ascii=False, indent=4
+    # Wrote extracted data to json bytes n cleaning trailing comma
+    extracted_property_json = (
+        json.dumps(extracted_property_object, indent=4)
+        .replace(",]", "]")
+        .replace(",}", "}")
     )
 
     # upload to GCS??
-    upload_blob_to_gcs("olx-property-analytics", extracted_property_json, "test.json")
+    upload_blob_to_gcs(
+        "olx-property-analytics-rafzul",
+        extracted_property_json,
+        f"test-{extraction_date}.json",
+    )
+    print("object uploaded")
