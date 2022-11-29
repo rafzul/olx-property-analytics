@@ -34,19 +34,32 @@ credentials = service_account.Credentials.from_service_account_file(
 # --------------------------------------------------------------
 
 # setting up recursive function to extracting data from API
-def extracting_data(url, header, extracted_property):
+def extracting_data(url, header, extracted_property, extracted_metadata):
     property_data = requests.get(url, headers=header).json()
+    api_version = property_data["version"]
     if not property_data["data"]:
-        extracted_property["api_version"] = property_data["version"]
-        extracted_property["extraction_pipeline_metadata"][
+        # new code
+        # -----
+        # old code
+        extracted_metadata["api_version"] = property_data["version"]
+        extracted_metadata["extraction_pipeline_metadata"][
             "extraction_date"
         ] = extraction_date
+        extracted_property = "\n".join(extracted_property)
         print("end of data")
         return
     else:
-        extracted_property["data"].extend(property_data["data"])
+        # current code
+        current_extraction = [data for data in property_data["data"]]
+        extracted_property.extend(current_extraction)
+        print(extracted_property)
         next_url = property_data["metadata"]["next_page_url"]
-        extracting_data(next_url, header, extracted_property)
+        extracting_data(next_url, header, extracted_property, extracted_metadata)
+
+        # # previous code
+        # extracted_property["data"].extend(property_data["data"])
+        # next_url = property_data["metadata"]["next_page_url"]
+        # extracting_data(next_url, header, extracted_property)
 
 
 # upload data to GCS
@@ -77,9 +90,9 @@ def upload_blob_to_gcs(bucket_name, contents, destination_blob_name):
 for location_id in location_ids:
     # Set up empty list to store the individual property data
     t_start = time()
-    extracted_property_object = {
-        "api_version": "",
-        "data": [],
+    extracted_property_object = []
+    extracted_property_object_metadata = {
+        "api_version": "api_version",
         "extraction_pipeline_metadata": {
             "extraction_date": extraction_date,
             "extraction_speed": "",
@@ -90,10 +103,12 @@ for location_id in location_ids:
     url = f"http://api.olx.co.id/relevance/v2/search?facet_limit=100&clientId=pwa&location_facet_limit=20&location={location_id}&page=0&category=88&clientVersion=10.12.0&user=183b5ebc936x2a092b41&platform=web-desktop"
 
     # Run the extraction!
-    extracting_data(url, headers, extracted_property_object)
+    extracting_data(
+        url, headers, extracted_property_object, extracted_property_object_metadata
+    )
     t_end = time()
     extraction_speed = t_end - t_start
-    extracted_property_object["extraction_pipeline_metadata"][
+    extracted_property_object_metadata["extraction_pipeline_metadata"][
         "extraction_speed"
     ] = extraction_speed
 
@@ -103,11 +118,19 @@ for location_id in location_ids:
         .replace(",]", "]")
         .replace(",}", "}")
     )
+    extracted_property_metadata_json = json.dumps(
+        extracted_property_object_metadata, indent=4
+    )
 
     # upload to GCS??
     upload_blob_to_gcs(
         "olx-property-analytics-rafzul",
         extracted_property_json,
         f"test-{extraction_date}.json",
+    )
+    upload_blob_to_gcs(
+        "olx-property-analytics-rafzul",
+        extracted_property_metadata_json,
+        f"test-{extraction_date}-metadata.json",
     )
     print("object uploaded")
