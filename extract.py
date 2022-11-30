@@ -50,7 +50,10 @@ def extracting_data(url, header, extracted_property, extracted_metadata):
         return
     else:
         # current code
-        current_extraction = [data for data in property_data["data"]]
+        current_extraction = [
+            json.dumps(data).replace(",]", "]").replace(",}", "}")
+            for data in property_data["data"]
+        ]
         extracted_property.extend(current_extraction)
         print(extracted_property)
         next_url = property_data["metadata"]["next_page_url"]
@@ -113,11 +116,12 @@ for location_id in location_ids:
     ] = extraction_speed
 
     # Wrote extracted data to json bytes n cleaning trailing comma
-    extracted_property_json = (
-        json.dumps(extracted_property_object, indent=4)
-        .replace(",]", "]")
-        .replace(",}", "}")
-    )
+    # extracted_property_json = (
+    #     json.dumps(extracted_property_object, indent=4)
+    #     .replace(",]", "]")
+    #     .replace(",}", "}")
+    # )
+    extracted_property_json = extracted_property_object
     extracted_property_metadata_json = json.dumps(
         extracted_property_object_metadata, indent=4
     )
