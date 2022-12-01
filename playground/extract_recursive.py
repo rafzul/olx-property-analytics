@@ -38,7 +38,10 @@ def extracting_data(url, header, extracted_property, extracted_metadata):
     property_data = requests.get(url, headers=header).json()
     api_version = property_data["version"]
     if not property_data["data"]:
-        # end case
+        # new code
+        # -----
+        # old code
+        extracted_property = "\n".join(extracted_property)
         extracted_metadata["api_version"] = property_data["version"]
         extracted_metadata["extraction_pipeline_metadata"][
             "extraction_date"
@@ -46,14 +49,20 @@ def extracting_data(url, header, extracted_property, extracted_metadata):
         print("end of data")
         return
     else:
-        # recursing case
+        # current code
         current_extraction = [
             json.dumps(data).replace(",]", "]").replace(",}", "}")
             for data in property_data["data"]
         ]
+        print(current_extraction)
         extracted_property.extend(current_extraction)
         next_url = property_data["metadata"]["next_page_url"]
         extracting_data(next_url, header, extracted_property, extracted_metadata)
+
+        # # previous code
+        # extracted_property["data"].extend(property_data["data"])
+        # next_url = property_data["metadata"]["next_page_url"]
+        # extracting_data(next_url, header, extracted_property)
 
 
 # upload data to GCS
@@ -106,14 +115,15 @@ for location_id in location_ids:
         "extraction_speed"
     ] = extraction_speed
 
-    # Wrote extracted data to newline delimited json bytes n cleaning trailing comma
-    extracted_property_json = (
-        "\n".join(extracted_property_object).replace(",]", "]").replace(",}", "}")
-    )
-    extracted_property_metadata_json = (
-        json.dumps(extracted_property_object_metadata, indent=4)
-        .replace(",]", "]")
-        .replace(",}", "}")
+    # Wrote extracted data to json bytes n cleaning trailing comma
+    # extracted_property_json = (
+    #     json.dumps(extracted_property_object, indent=4)
+    #     .replace(",]", "]")
+    #     .replace(",}", "}")
+    # )
+    extracted_property_json = "\n".join(extracted_property_object)
+    extracted_property_metadata_json = json.dumps(
+        extracted_property_object_metadata, indent=4
     )
 
     # upload to GCS??
