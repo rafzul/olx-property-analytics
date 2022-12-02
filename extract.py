@@ -76,14 +76,15 @@ def upload_blob_to_gcs(bucket_name, contents, destination_blob_name):
     blob.upload_from_string(contents)
 
 
-# Fetching the data from the API for every approximate location of location_ids. Duplicates is allowed, remember to remove them later in the SQL transforms script tho. No need to limit strictly by location.
+# Fetching the data from the API for every approximate location of location_ids. Duplicates is allowed, remember to tag them with the extraction_date to know the updates. No need to limit strictly by location.
 # Also, later scripts need to partitionate the json by the time? (liat ntar)
 
 
 # main function
 for location_id in location_ids:
-    # Set up empty list to store the individual property data
+    # start the time
     t_start = time()
+    # Set up object to store the individual property data and the metadata
     extracted_property_object = []
     extracted_property_object_metadata = {
         "api_version": "api_version",
@@ -92,7 +93,6 @@ for location_id in location_ids:
             "extraction_speed": "",
         },
     }
-
     # Do the fetching
     url = f"http://api.olx.co.id/relevance/v2/search?facet_limit=100&clientId=pwa&location_facet_limit=20&location={location_id}&page=0&category=88&clientVersion=10.12.0&user=183b5ebc936x2a092b41&platform=web-desktop"
 
@@ -101,22 +101,24 @@ for location_id in location_ids:
         url, headers, extracted_property_object, extracted_property_object_metadata
     )
     t_end = time()
+    # end of extraction
     extraction_speed = t_end - t_start
+    # putting the extraction speed into the metadata
     extracted_property_object_metadata["extraction_pipeline_metadata"][
         "extraction_speed"
     ] = extraction_speed
 
+    # --------------------------------------------------------------
+    # --------------------------------------------------------------
     # Wrote extracted data to newline delimited json bytes n cleaning trailing comma
     extracted_property_json = (
         "\n".join(extracted_property_object).replace(",]", "]").replace(",}", "}")
     )
-    extracted_property_metadata_json = (
-        json.dumps(extracted_property_object_metadata, indent=4)
-        .replace(",]", "]")
-        .replace(",}", "}")
-    )
-
-    # upload to GCS??
+    extracted_property_metadata_json = json.dumps(extracted_property_object_metadata) + "\n"
+    # --------------------------------------------------------------
+    # --------------------------------------------------------------
+    # upload to GCS
+    # --------------------------------------------------------------
     upload_blob_to_gcs(
         "olx-property-analytics-rafzul",
         extracted_property_json,

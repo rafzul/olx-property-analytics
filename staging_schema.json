@@ -1,0 +1,585 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "created_at_first",
+    "type": "TIMESTAMP"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "installment",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "user_id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "isSpinViewAvailable",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "display_date",
+    "type": "TIMESTAMP"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "business_platform",
+    "type": "STRING"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "lastBoosted",
+        "type": "TIMESTAMP"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "packageId",
+            "type": "INTEGER"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "currentProduct",
+        "type": "RECORD"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adId",
+        "type": "INTEGER"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "monetizationInfo",
+    "type": "RECORD"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_kyc_verified_user",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "score",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "certified_car",
+    "type": "BOOLEAN"
+  },
+  {
+    "fields": [
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "height",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "width",
+            "type": "INTEGER"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "big",
+        "type": "RECORD"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "height",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "width",
+            "type": "INTEGER"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "full",
+        "type": "RECORD"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "height",
+        "type": "INTEGER"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "height",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "width",
+            "type": "INTEGER"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "medium",
+        "type": "RECORD"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "width",
+        "type": "INTEGER"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "height",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "width",
+            "type": "INTEGER"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "small",
+        "type": "RECORD"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "external_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "INTEGER"
+      }
+    ],
+    "mode": "REPEATED",
+    "name": "images",
+    "type": "RECORD"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "inspection_info",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "partner_code",
+    "type": "STRING"
+  },
+  {
+    "fields": [
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          }
+        ],
+        "mode": "REPEATED",
+        "name": "values",
+        "type": "RECORD"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "formatted_value",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "key_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "key",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "type": "STRING"
+      }
+    ],
+    "mode": "REPEATED",
+    "name": "parameters",
+    "type": "RECORD"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "facet_disabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "default_sorting",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "main",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "key",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "version",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "INTEGER"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "spell",
+    "type": "RECORD"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "key",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "key_name",
+        "type": "STRING"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "display",
+            "type": "STRING"
+          },
+          {
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "pre",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "iso_4217",
+                "type": "STRING"
+              }
+            ],
+            "mode": "NULLABLE",
+            "name": "currency",
+            "type": "RECORD"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "raw",
+            "type": "FLOAT"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "RECORD"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "price",
+    "type": "RECORD"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "SUBLOCALITY_LEVEL_1_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ADMIN_LEVEL_3_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ADMIN_LEVEL_3_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ADMIN_LEVEL_1_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "COUNTRY_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ADMIN_LEVEL_1_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "SUBLOCALITY_LEVEL_1_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "COUNTRY_id",
+        "type": "INTEGER"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "locations_resolved",
+    "type": "RECORD"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "partner_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "package_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "deal_price",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_at",
+    "type": "TIMESTAMP"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "main_info",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "title",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "user_type",
+    "type": "STRING"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "message",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "allow_deactivate",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "link",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "translated_display",
+        "type": "STRING"
+      },
+      {
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "hot",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "new",
+            "type": "BOOLEAN"
+          }
+        ],
+        "mode": "NULLABLE",
+        "name": "flags",
+        "type": "RECORD"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ban_reason_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "display",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "allow_edit",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "status",
+        "type": "STRING"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "status",
+    "type": "RECORD"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "count_label_prev",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "count_label",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "count_label_next",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "count",
+        "type": "INTEGER"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "favorites",
+    "type": "RECORD"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "INTEGER"
+      }
+    ],
+    "mode": "NULLABLE",
+    "name": "package",
+    "type": "RECORD"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "id",
+    "type": "INTEGER"
+  },
+  {
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "city_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "district_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "region_id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "lon",
+        "type": "FLOAT"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "lat",
+        "type": "FLOAT"
+      }
+    ],
+    "mode": "REPEATED",
+    "name": "locations",
+    "type": "RECORD"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "vasTags",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "category_id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "has_phone_param",
+    "type": "BOOLEAN"
+  }
+]
