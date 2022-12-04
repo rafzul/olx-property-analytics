@@ -47,6 +47,10 @@ def extracting_data(url, header, extracted_property, extracted_metadata):
         return
     else:
         # recursing case
+        property_data["data"][0]["created_at"] = datetime.strptime(
+            property_data["data"][0]["created_at"], '%Y-%m-%dT%H:%M:%S.%z'
+        )
+        print(property_data["data"][0]["created_at"])
         current_extraction = [
             json.dumps(data).replace(",]", "]").replace(",}", "}")
             for data in property_data["data"]
@@ -114,7 +118,9 @@ for location_id in location_ids:
     extracted_property_json = (
         "\n".join(extracted_property_object).replace(",]", "]").replace(",}", "}")
     )
-    extracted_property_metadata_json = json.dumps(extracted_property_object_metadata) + "\n"
+    extracted_property_metadata_json = (
+        json.dumps(extracted_property_object_metadata) + "\n"
+    )
     # --------------------------------------------------------------
     # --------------------------------------------------------------
     # upload to GCS

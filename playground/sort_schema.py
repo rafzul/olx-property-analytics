@@ -66,17 +66,23 @@ def sortedUsingGet(array_reference, array_source):
     ordered_schema_reference = {
         value: index for index, value in enumerate(array_reference)
     }
-    schemas_destination = sorted(
+    schemas_output = sorted(
         array_source, key=lambda element: ordered_schema_reference.get(element["name"])
     )
 
-    return schemas_destination
+    return schemas_output
 
 
 # method 3 pake index (kecepatan O(n))
+def sortedUsingIndex(array_reference, array_source):
+    schemas_output = sorted(
+        array_source, key=lambda element: array_reference.index(element["name"])
+    )
+    return schemas_output
 
 
 schemas_destination = sortedUsingGet(schema_reference, schema_source)
+# schemas_destination = sortedUsingIndex(schema_reference, schema_source)
 
 with open(
     "/home/rafzul/projects/olx-property-analytics/sorted_staging_schema.json", "w"
