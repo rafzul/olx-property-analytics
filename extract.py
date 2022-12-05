@@ -1,6 +1,7 @@
 import json
 import requests
 import datetime
+from datetime import datetime
 import os
 from google.oauth2 import service_account
 from google.cloud import storage
@@ -47,10 +48,14 @@ def extracting_data(url, header, extracted_property, extracted_metadata):
         return
     else:
         # recursing case
-        property_data["data"][0]["created_at"] = datetime.strptime(
-            property_data["data"][0]["created_at"], '%Y-%m-%dT%H:%M:%S.%z'
-        )
-        print(property_data["data"][0]["created_at"])
+        # ----------
+        # standardize datetime
+        for index, data in enumerate(property_data["data"]):
+            property_data["data"][index]["created_at"] = datetime.datetime.strptime(
+                property_data["data"][0]["created_at"], "%Y-%m-%dT%H:%M:%S%z"
+            )
+        print(abc.strftime())x
+        # parse to json string
         current_extraction = [
             json.dumps(data).replace(",]", "]").replace(",}", "}")
             for data in property_data["data"]

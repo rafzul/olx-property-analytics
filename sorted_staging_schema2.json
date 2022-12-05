@@ -1,6 +1,6 @@
 [
   {
-    "mode": "NULLABLE",
+    "mode": "REQUIRED",
     "name": "id",
     "type": "INTEGER"
   },
