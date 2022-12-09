@@ -1,7 +1,6 @@
 import json
 import requests
-import datetime
-from datetime import datetime
+from datetime import datetime, date
 import os
 from google.oauth2 import service_account
 from google.cloud import storage
@@ -15,7 +14,7 @@ from time import time
 # Setting up location id to be fetched (be wary to only limit adding individual values later in SQL, not in this functions)
 # Properti di sekitar kabupaten cilacap (dan kabupaten2 lain)
 location_ids = ["4000039"]
-extraction_date = datetime.date.today().strftime("%Y-%m-%d")
+extraction_date = date.today().strftime("%Y-%m-%d")
 
 # Setting up headers for the  requests
 headers = {
@@ -34,6 +33,22 @@ credentials = service_account.Credentials.from_service_account_file(
 # --------------------------------------------------------------
 # --------------------------------------------------------------
 
+# checking key and cleaning_up
+def timestamp_cleaning(element):
+    for k, v in element.items():
+        if k in ["created_at", "display_date", "created_at_first"]:
+            element[k] = datetime.strptime(
+                element[k], "%Y-%m-%dT%H:%M:%S%z"
+            ).isoformat()   o
+            print(element[k])
+        if k == "monetizationInfo" and "lastBoosted" in k:
+            element[k]["lastBoosted"] == datetime.strptime(
+                element[k]["lastBoosted"], "%Y-%m-%dT%H:%M:%S%z"
+            ).isoformat()
+        else:
+            pass
+
+
 # setting up recursive function to extracting data from API
 def extracting_data(url, header, extracted_property, extracted_metadata):
     property_data = requests.get(url, headers=header).json()
@@ -47,14 +62,15 @@ def extracting_data(url, header, extracted_property, extracted_metadata):
         print("end of data")
         return
     else:
+        # cleaning_items
+        list(map(timestamp_cleaning, property_data["data"]))
         # recursing case
         # ----------
         # standardize datetime
-        for index, data in enumerate(property_data["data"]):
-            property_data["data"][index]["created_at"] = datetime.datetime.strptime(
-                property_data["data"][0]["created_at"], "%Y-%m-%dT%H:%M:%S%z"
-            )
-        print(abc.strftime())x
+        # for index, data in enumerate(property_data["data"]):
+        #     property_data["data"][index]["created_at"] = datetime.datetime.strptime(
+        #         property_data["data"][0]["created_at"], "%Y-%m-%dT%H:%M:%S%z"
+        #     )
         # parse to json string
         current_extraction = [
             json.dumps(data).replace(",]", "]").replace(",}", "}")
